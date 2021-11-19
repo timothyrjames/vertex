@@ -24,12 +24,7 @@ def root():
 def upload():
     di = DisplayInfo('Taco or Dog?')
 
-    token = None
-    if 'token' in flask.request.form:
-        token = flask.request.form['token']
-    if not token:
-        token = 'ya29.a0ARrdaM9HKaOui9OGvty9bKoBGmd3TcOdg96vPEIgVH0kcJW6BtmuNfy4xV0OZvgHvWq_afNrwSQ8cZw0zCpuNOfrE-n7vXsVgV3burryPtCrkHIrEyzyIPwwY9GeXwLBnYQrCRNuw6tBA96S5YxRlME4A-kJPrfukcyfePwHZqRakH66ibRs5QTDuuTnaI8xSQUar0xB5eGYsEicaABWiKJXPT08lDBRD6gfzuleiSrwMQJEbaobG7XF082nWe-p4KXvcEY'
-
+    token = flask.request.form['token']
     uploaded_file = flask.request.files.get('file')
 
     if not uploaded_file:

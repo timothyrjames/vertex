@@ -1,0 +1,32 @@
+{% extends '_base.html' %}
+{% block content %}
+
+<div>
+    If you're not sure if you've got a taco or a dog, upload the photo below
+    and we'll provide our best guess.
+</div>
+<section>
+    <form method="post" action="/upload" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td>Select a file:</td>
+                <td><input type="file" name="file"></td>
+            </tr>
+            <tr>
+                <td>Give the file a name:</td>
+                <td><input type="text" name="filename"></td>
+            </tr>
+            <tr>
+                <td>Authorization token:</td>
+                <td><input type="text" name="token"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Upload!"></td>
+            </tr>
+        </table>
+    </form>
+</section>
+
+<em>Please limit file size to 500KB or less.</em>
+{% endblock %}

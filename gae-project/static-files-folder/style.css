@@ -1,0 +1,21 @@
+.Error {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+nav {
+    padding-bottom: 1em;
+}
+
+body {
+    font-family: Tahoma, sans-serif;
+}
+
+div {
+    padding-bottom: 1em;
+}
+
+td {
+    padding-right: 0.25em;
+    padding-bottom: 0.25em;
+}

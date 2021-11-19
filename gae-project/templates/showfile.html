@@ -1,0 +1,78 @@
+{% extends '_base.html' %}
+{% block content %}
+
+<div>
+    Your file name: {{ display.p['name'] }}
+</div>
+<div>
+    <img id="Uploaded">
+</div>
+<div id="PredictionResult">
+    <img width="100" height="100" src="/s/spin.gif">
+</div>
+
+<script>
+let imageData = `{{ display.p['content'] }}`;
+document.getElementById('Uploaded').setAttribute('src', 'data:image/jpg;base64, ' + imageData);
+
+let baseUrl = 'https://us-central1-aiplatform.googleapis.com';
+let project = '120355996780';
+let endpoint = '1649874372082532352';
+let apiloc = 'us-central1';
+let url = `${baseUrl}/v1/projects/${project}/locations/${apiloc}/endpoints/${endpoint}:predict`;
+
+let params = {
+  "instances": [{
+    "content": imageData
+  }],
+  "parameters": {
+    "confidenceThreshold": 0.5,
+    "maxPredictions": 5
+  }
+};
+
+
+fetch(url, {
+
+  method: 'POST',
+  headers: {
+      'Authorization': 'Bearer {{ display.p['token'] }}',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(params)
+
+}).then(response => response.json()).then(function(data) {
+
+    if (!data) {
+        handleError('No data returned from prediction service.');
+        return;
+    }
+    if (data.error) {
+        handleError(`Prediction service error: "${data.error.message}"`);
+        return;
+    }
+    if (!data.predictions) {
+        handleError('No predictions returned from prediction service.');
+        return;
+    }
+    if (!data.predictions[0].displayNames) {
+        handleError('Prediction label was not returned from prediction service.');
+        return;
+    }
+
+    let label = data.predictions[0].displayNames[0];
+    let d = document.getElementById('PredictionResult');
+    if (data.predictions[0].confidences[0] > 0.7) {
+        d.innerHTML = `That is almost definitely a ${label}.`;
+    } else {
+        d.innerHTML = `That is probably a ${label}.`;
+    }
+});
+
+function handleError(msg) {
+    document.getElementById('PredictionResult').innerHTML = msg;
+}
+
+</script>
+
+{% endblock %}
